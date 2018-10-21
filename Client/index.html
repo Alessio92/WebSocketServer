@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		WebSocket Test
+	</title>
+	<style type="text/css">
+	</style>
+	<script type="text/javascript">
+		window.onload = function()
+		{
+			var client;
+			
+			var startButton = document.getElementById('start');
+			startButton.onclick = function() {
+				client.send('GetVuMeterValues')
+				return false;
+			};
+
+			var stopButton = document.getElementById('stop');
+			stopButton.onclick = function() {
+				client.send('StopSendVuMeterValues')
+				return false;
+			};
+
+			var endpoint = document.getElementById('endpoint');
+
+			var onclose = function()
+			{
+				disconnectButton.style.display = 'none';
+				connectButton.style.display = 'inline-block';
+			}
+
+			var onopen = function()
+			{
+				disconnectButton.style.display = 'inline-block';
+				connectButton.style.display = 'none';
+			}
+			
+			var bar = document.getElementById('bar');
+
+			var disconnectButton = document.getElementById('disconnect');
+			var connectButton = document.getElementById('connect');
+
+			connectButton.onclick = function() {
+				client = new WebSocket(endpoint.value);
+				client.onopen = onopen;
+				client.onclose = onclose;
+
+				client.addEventListener('message', function(msg){ bar.value = msg.data; });
+
+				return false;
+			};
+
+			disconnectButton.onclick = function() {
+				client.close();
+			}
+		}
+	</script>
+</head>
+<body>
+
+	<h3> Type below your server endpoint (default: ws://localhost:8990)</h3>
+
+	Web socket url: <input id="endpoint" type="text" value="ws://localhost:8990" />
+
+	<input type="button" id="connect" value="Connect" />
+	<input type="button" style="display: none;" id="disconnect" value="Disonnect" />
+
+	<br />
+
+	<h3> Press `START` to receive data, `STOP` to stop</h3>
+
+	<input type="button" id="start" value="START" />
+	<input type="button" id="stop" value="STOP" />
+
+	<br />
+
+	<progress id="bar" value="0" max="100" style="width: 200px;"></progress>
+
+</body>
+</html>

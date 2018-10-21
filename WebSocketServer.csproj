@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+    <PropertyGroup>
+        <RuntimeIdentifiers>win10-x64;osx.10.12-x64;debian.8-x64;ubuntu.18.04-x64</RuntimeIdentifiers>
+    </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <DefineConstants>TRACE;DEBUG;NETCOREAPP1_1; FULL_LOG</DefineConstants>
+  </PropertyGroup>
+
+</Project>
